@@ -1,0 +1,71 @@
+//Ispas Alexandra-Petrina 322CDb   alexandra.ispas@stud.acs.upb.ro
+
+*entities - package with all the entities given in the input file
+
+    *consumers - Consumer - has all the necessary entities for a consumer
+                          - when the consumer doesn't have money to pay for the first time, he is 'in dept' and a dept
+                          is set. When this happens for the second time, he becomes bankrupt.
+               - AddContract - adds a consumer to the  cheapest distributor
+                             - implements Singleton design pattern
+
+    *distributors - Distributor - sores the data for a distributor. The field 'in dept' is used in the same way as for a consumer.
+                                - the observer for the Observer design pattern
+                  - GetTheBestDistributor - gets the Distributor with the smallest price from all
+                                          - implements Singleton design pattern
+                  *factory - *actions - UpdateContractLength - removes a month from the contracts of the consumers
+                                                             - adds a new contract if they reach 0 months
+                                                             -  implements Singleton design pattern
+                                      - UpdateDistributors - remove all the distributors from producers who had been updated
+                                                           - get a new production cost for them and remove bankrupt distributors
+                                                           - implements Singleton design pattern
+                                      - UpdateProductionCost - sort producers based on strategy type and assign them to
+                                                                distributors
+                                                             - the sorting is done using Strategy design patter
+                                                             - implements Singleton design pattern
+                           - DistributorAction - interface used for the Factory design pattern
+                           - DistributorFactory - returns an instance of a specific class based on a constant
+
+    *energyType - EnergyType - the given class
+                - CreateEnergyType - creates an EnergyType object based on a String
+                - implements Singleton design pattern
+
+    *producers - *observer - Observer - abstract class used to implement Observer design pattern
+               - Producer  - is the Observable object
+
+    *updates - stores data from monthlyUpdates
+             - DistributorChanges - monthly updates for a distributor
+             - ProducerChanges - monthly changes for a producer
+
+*input - *factory - *actions - ConsumersPayExpenses - update budget and debt for all the consumers
+                                                    - implements Singleton design pattern
+                             - DistributorsPayExpenses - update monthlyCosts and budget for each distributor
+                                                       - implements Singleton design pattern
+                             - MakeDistributorChanges - apply monthlyUpdates for distributors
+                                                      - implements Singleton design pattern
+                             - MakeProducerChanges - apply monthlyUpdates for producers
+                                                   - implements Singleton design pattern
+                             - RemoveBankruptConsumers - remove bankrupt consumers from distributors
+                                                       - implements Singleton design pattern
+                  - InputAction - interface used for the Factory design pattern
+                  - InputFactory - returns an instance of a specific class based on a constant
+       - Input - has all the data from the input file.
+       - InputLoader - reads from the JSON file and stores data in Input.
+
+*output - I created new classes where I store the data which needs to be written in the output file.
+        - ComputeOutput - creates the actual output object
+        - Writer - writes the object to the specified path
+
+*solver - Solver - computes all the turns for the program
+
+*strategies - *sort - GreenComparator - comparator created to sort producers based on the type of energy
+                    - GreenMultipleFieldsSorter - sorts producers based on type of energy, price and quantity
+                    - PriceQuantityComparator - sorts producers based on price and quantity
+            - *strategyType - CreateStrategyType - creates an EnergyChoiceStrategyType object based on a String
+                            - EnergyChoiceStrategyType - given class
+            - ContextStrategy - class used to implement Strategy design pattern
+            - GreenStrategy - sorts a list of producers for green strategy
+            - PriceStrategy - sorts a list of producers for price strategy
+            - QuantityStrategy - sorts a list of producers for quantity strategy
+            - Strategy - interface used to implement the Strategy design pattern
+
+*main - I use the 'Solver' class to compute all the turns and then I create the output objects.
